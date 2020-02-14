@@ -17,7 +17,7 @@ userDialog.classList.remove('map--faded');
 var data = [];
 
 var func = function () {
-  var randomX = getRandom(100, 7);
+  var randomX = getRandom(0, 1001);
   var randomY = getRandom(130, 631);
   var check = getRandomElement(TIMES);
   return {
