@@ -10,8 +10,6 @@ var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var DESCRIPTION = ['Ооочень круто', 'Идеально просто', 'Космос, а не вариант', 'Маме бы понравилось'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-var LOCATION_X = randomX;
-var LOCATION_Y = randomY;
 
 var userDialog = document.querySelector('.map');
 userDialog.classList.remove('map--faded');
@@ -19,8 +17,8 @@ userDialog.classList.remove('map--faded');
 var data = [];
 
 var func = function () {
-  var randomX = getRandomElement(LOCATION_X);
-  var randomY = getRandomElement(LOCATION_Y);
+  var randomX = getRandom(100, 7);
+  var randomY = getRandom(130, 631);
   var check = getRandomElement(TIMES);
   return {
     "author": {
@@ -28,7 +26,7 @@ var func = function () {
     },
     "offer": {
       "title": getRandomElement(TITLE),
-      "address": getRandomElement(ADDRESS),
+      "address": randomX + randomY,
       "price": getRandom(1000, 4001),
       "type": getRandomElement(TYPE),
       "rooms": getRandomElement(ROOMS),
