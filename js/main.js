@@ -2,7 +2,6 @@
 
 var AVATAR = [1, 2, 3, 4, 5, 6, 7, 8];
 var TITLE = ['Самый лучший вариант', 'Вариант средний', 'Вариант для утех', 'Вариант для студентов'];
-var ADDRESS = randomX + randomY;
 var TYPE = ['palace', 'flat', 'house', 'bungalo'];
 var ROOMS = [1, 2, 3, 4, 5];
 var GUESTS = [1, 2, 3, 4];
@@ -14,14 +13,17 @@ var MIN_PRICE = 1000;
 var MAX_PRICE = 4000;
 var MIN_Y = 130;
 var MAX_Y = 630;
+var MIN_X = 0;
+var MAX_X = 1200;
+var PIN_WIDTH = 60;
+var PIN_HEIGHT = 70;
 
 var userDialog = document.querySelector('.map');
-userDialog.classList.remove('map--faded');
 
 var data = [];
 
-var func = function () {
-  var randomX = getRandom(0, 1001);
+var options = function () {
+  var randomX = getRandom(MIN_X, MAX_X + 1);
   var randomY = getRandom(MIN_Y, MAX_Y + 1);
   var check = getRandomElement(TIMES);
   return {
@@ -30,13 +32,13 @@ var func = function () {
     },
     "offer": {
       "title": getRandomElement(TITLE),
-      "address": randomX + randomY,
+      "address": randomX, randomY,
       "price": getRandom(MIN_PRICE, MAX_PRICE + 1),
       "type": getRandomElement(TYPE),
       "rooms": getRandomElement(ROOMS),
       "guests": getRandomElement(GUESTS),
-      "checkin": check,
-      "checkout": check,
+      "checkin": TIMES,
+      "checkout": TIMES,
       "features": getRandomItems(FEATURES),
       "description": getRandomElement(DESCRIPTION),
       "photos": getRandomElement(PHOTOS),
@@ -70,4 +72,54 @@ var getRandomElement = function (element) {
 
 var getRandomItems = function (items) {
   return items.filter(rand);
+};
+
+userDialog.classList.remove('map--faded');
+
+var mapPin = document.querySelector('#pin')
+  .content
+  .querySelector('.map_pin');
+
+var renderPin = function (offer) {
+  var pinElement = Nodes.mapPin.cloneNode(true);
+  var pinX = location.x - PIN_WIDTH / 2;
+  var pinY = location.y - PIN_HEIGHT;
+
+  pinElement.setAttribute('style', 'left: ' + pinX + 'px; ' + 'top: ' + pinY + 'px;');
+
+  pinElement.querySelector('img').src = offer.author.avatar;
+  pinElement.querySelector('img').setAttribute('alt', offer.title);
+
+  return pinElement;
+};
+
+var mapPopup = document.querySelector('#card')
+  .content
+  .querySelector('.map__card');
+
+var renderPopup = function (offer) {
+  var popupElement = Nodes.mapPopup.cloneNode(true);
+
+  popupElement.querySelector('.popup__avatar').setAttribute('src', offer.author.avatar);
+  popupElement.querySelector('.popup__title').textContent = offer.offer.title;
+  popupElement.querySelector('.popup__text--address').textContent = offer.offer.address;
+  popupElement.querySelector('.popup__text--price').textContent = offer.offer.price;
+  popupElement.querySelector('.popup__type').textContent = offer.offer.type;
+  popupElement.querySelector('.popup__text--capacity').textContent = offer.offer.rooms + ' комнаты для ' + offer.offer.guests + ' гостей';
+  popupElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.offer.checkin + ', выезд до ' + offer.offer.checkout;
+  popupElement.querySelector('.popup__description').textContent = offer.offer.description;
+
+  return popupElement;
+};
+
+var data = options(COUNT);
+var ads = renderAds(data);
+
+
+var renderAds = function (offer) {
+  var fragment = document.createDocumentFragment();
+  ads.forEach(function(item){
+    fragment.push(renderPin[item]);
+  });
+  return fragment;
 };
