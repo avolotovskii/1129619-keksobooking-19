@@ -11,20 +11,28 @@ var DESCRIPTION = ['Ооочень круто', 'Идеально просто',
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var MIN_PRICE = 1000;
 var MAX_PRICE = 4000;
-var MIN_Y = 130;
-var MAX_Y = 630;
-var MIN_X = 0;
-var MAX_X = 1200;
-var PIN_WIDTH = 60;
-var PIN_HEIGHT = 70;
+var Coords = {
+  Y: {
+    MIN: 130,
+    MAX: 630,
+  },
+  X: {
+    MIN: 0,
+    MAX: 1200,
+  },
+};
+var PIN = {
+  WIDTH: 60,
+  HEIGHT: 70,
+};
 
 var userDialog = document.querySelector('.map');
 
 var data = [];
 
 var options = function () {
-  var randomX = getRandom(MIN_X, MAX_X + 1);
-  var randomY = getRandom(MIN_Y, MAX_Y + 1);
+  var randomX = getRandom(Coords.X.MIN, Coords.X.MAX + 1);
+  var randomY = getRandom(Coords.Y.MIN, Coords.Y.MAX + 1);
   var check = getRandomElement(TIMES);
   return {
     "author": {
@@ -74,11 +82,7 @@ var getRandomItems = function (items) {
   return items.filter(rand);
 };
 
-userDialog.classList.remove('map--faded');
-
-var mapPin = document.querySelector('#pin')
-  .content
-  .querySelector('.map_pin');
+var mapPin = document.querySelector('#pin').content.querySelector('.map_pin');
 
 var renderPin = function (offer) {
   var pinElement = Nodes.mapPin.cloneNode(true);
@@ -93,9 +97,7 @@ var renderPin = function (offer) {
   return pinElement;
 };
 
-var mapPopup = document.querySelector('#card')
-  .content
-  .querySelector('.map__card');
+var mapPopup = document.querySelector('#card').content.querySelector('.map__card');
 
 var renderPopup = function (offer) {
   var popupElement = Nodes.mapPopup.cloneNode(true);
@@ -112,8 +114,8 @@ var renderPopup = function (offer) {
   return popupElement;
 };
 
-var data = options(COUNT);
-var ads = renderAds(data);
+var data = options(AVATAR);
+var ads = rand(data);
 
 
 var renderAds = function (offer) {
@@ -123,3 +125,5 @@ var renderAds = function (offer) {
   });
   return fragment;
 };
+
+userDialog.classList.remove('map--faded');
