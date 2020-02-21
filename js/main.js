@@ -11,6 +11,7 @@ var DESCRIPTION = ['Ооочень круто', 'Идеально просто',
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var MIN_PRICE = 1000;
 var MAX_PRICE = 4000;
+var COUNT = 8;
 var Coords = {
   Y: {
     MIN: 130,
@@ -30,39 +31,42 @@ var userDialog = document.querySelector('.map');
 
 var data = [];
 
-var options = function () {
-  var randomX = getRandom(Coords.X.MIN, Coords.X.MAX + 1);
-  var randomY = getRandom(Coords.Y.MIN, Coords.Y.MAX + 1);
-  var check = getRandomElement(TIMES);
-  return {
-    "author": {
-      "avatar": avatarAdd(AVATAR[getRandom(AVATAR.length)]),
-    },
-    "offer": {
-      "title": getRandomElement(TITLE),
-      "address": randomX, randomY,
-      "price": getRandom(MIN_PRICE, MAX_PRICE + 1),
-      "type": getRandomElement(TYPE),
-      "rooms": getRandomElement(ROOMS),
-      "guests": getRandomElement(GUESTS),
-      "checkin": TIMES,
-      "checkout": TIMES,
-      "features": getRandomItems(FEATURES),
-      "description": getRandomElement(DESCRIPTION),
-      "photos": getRandomElement(PHOTOS),
-    },
+var getApartments = function (COUNT) {
+  var data = [];
+  for (var i = 0; i < COUNT; i++) {
+    var randomX = getRandom(Coords.X.MIN, Coords.X.MAX + 1);
+    var randomY = getRandom(Coords.Y.MIN, Coords.Y.MAX + 1);
+    var check = getRandomElement(TIMES);
+    data.push({
+      "author": {
+        "avatar": avatarAdd(AVATAR[getRandom(AVATAR.length)]),
+      },
+      "offer": {
+        "title": getRandomElement(TITLE),
+        "address": randomX, randomY,
+        "price": getRandom(MIN_PRICE, MAX_PRICE + 1),
+        "type": getRandomElement(TYPE),
+        "rooms": getRandomElement(ROOMS),
+        "guests": getRandomElement(GUESTS),
+        "checkin": TIMES,
+        "checkout": TIMES,
+        "features": getRandomItems(FEATURES),
+        "description": getRandomElement(DESCRIPTION),
+        "photos": getRandomElement(PHOTOS),
+      },
 
-    "location": {
-      "x": randomX,
-      "y": randomY,
-    }
+      "location": {
+        "x": randomX,
+        "y": randomY,
+      }
+    })
   }
+  return data;
 };
-
 
 var avatarAdd = function (number) {
   var stringNumber = '' + number;
-  return 'img/avatars/user'+ stringNumber.padStart(2, '0') +'.png'
+  return 'img/avatars/user' + stringNumber.padStart(2, '0') + '.png'
 }
 
 var getRandom = function (min, max) {
@@ -114,16 +118,17 @@ var renderPopup = function (offer) {
   return popupElement;
 };
 
-var data = options(AVATAR);
-var ads = rand(data);
+var getData = getApartments(COUNT);
 
-
-var renderAds = function (offer) {
+var renderAds = function (getData) {
   var fragment = document.createDocumentFragment();
-  ads.forEach(function(item){
+  getData.forEach(function (item) {
     fragment.push(renderPin[item]);
   });
   return fragment;
 };
+
+var fragment = renderAds(data);
+userDialog.appendChild(fragment);
 
 userDialog.classList.remove('map--faded');
