@@ -28,6 +28,7 @@ var PIN = {
 };
 
 var userDialog = document.querySelector('.map');
+var mapPins = document.querySelector('.map__pins');
 
 var data = [];
 
@@ -129,6 +130,6 @@ var renderAds = function (getData) {
 };
 
 var fragment = renderAds(data);
-userDialog.appendChild(fragment);
+mapPins.appendChild(fragment);
 
 userDialog.classList.remove('map--faded');
