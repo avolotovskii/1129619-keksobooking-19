@@ -32,6 +32,11 @@ var Enum = {
   mapPins: document.querySelector('.map__pins'),
 }
 
+var Map = {
+  PIN: document.querySelector('#pin').content.querySelector('.map__pin'),
+  POPUP: document.querySelector('#card').content.querySelector('.map__card'),
+};
+
 var data = [];
 
 var mockData = function (COUNT) {
@@ -40,9 +45,10 @@ var mockData = function (COUNT) {
     var randomX = getRandom(Coords.X.MIN, Coords.X.MAX + 1);
     var randomY = getRandom(Coords.Y.MIN, Coords.Y.MAX + 1);
     var check = getRandomElement(TIMES);
+    var ava = getRandomElement(AVATAR);
     data.push({
       "author": {
-        "avatar": avatarAdd(AVATAR[getRandom(AVATAR.length)]),
+        "avatar": avatarAdd(ava),
       },
       "offer": {
         "title": getRandomElement(TITLE),
@@ -89,10 +95,8 @@ var getRandomItems = function (items) {
   return items.filter(rand);
 };
 
-var mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
-
 var renderPin = function (offer) {
-  var pinElement = mapPin.cloneNode(true);
+  var pinElement = Map.PIN.cloneNode(true);
   var pinX = getRandom(Coords.X.MIN, Coords.X.MAX) - PIN.WIDTH / 2;
   var pinY = getRandom(Coords.Y.MIN, Coords.Y.MAX) - PIN.HEIGHT;
 
@@ -104,10 +108,9 @@ var renderPin = function (offer) {
   return pinElement;
 };
 
-var mapPopup = document.querySelector('#card').content.querySelector('.map__card');
 
 var renderPopup = function (offer) {
-  var popupElement = Nodes.mapPopup.cloneNode(true);
+  var popupElement = Map.POPUP.cloneNode(true);
 
   popupElement.querySelector('.popup__avatar').setAttribute('src', offer.author.avatar);
   popupElement.querySelector('.popup__title').textContent = offer.offer.title;
