@@ -122,14 +122,14 @@ var mockData = function (COUNT) {
     var randomX = getRandom(Coords.X.MIN, Coords.X.MAX + 1);
     var randomY = getRandom(Coords.Y.MIN, Coords.Y.MAX + 1);
     var check = getRandomElement(TIMES);
-    var ava = getRandomElement(AVATAR);
+    var ava = AVATAR[i];
     data.push({
       "author": {
         "avatar": getAvatarUrl(ava),
       },
       "offer": {
         "title": getRandomElement(TITLE),
-        "address": randomX, randomY,
+        "address": randomX + ', ' + randomY,
         "price": getRandom(MIN_PRICE, MAX_PRICE + 1),
         "type": getRandomElement(TYPE),
         "rooms": getRandomElement(ROOMS),
@@ -168,7 +168,7 @@ var getRandomElement = function (element) {
   return element[rand];
 };
 
-// пробую что то придумать с фото номеров
+// пробую что то придумать с фото комнат
 var getRandomphotos = function (array) {
   var photos = [];
   for (var i = 0; i < array.length; i++) {
@@ -222,7 +222,7 @@ var main = function (COUNT) {
   // var getData = mockData(COUNT);
   // var fragment = document.createDocumentFragment();
   // getData.forEach (function (item) {
-  //   fragment.appendChild(item);
+  //   fragment.appendChild();
   // });
   // Enum.userDialog.appendChild(fragment);
 
