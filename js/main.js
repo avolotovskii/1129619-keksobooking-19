@@ -12,6 +12,7 @@ var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.g
 var MIN_PRICE = 1000;
 var MAX_PRICE = 4000;
 var COUNT = 8;
+var ENTER_KEY = 'Enter';
 var Coords = {
   Y: {
     MIN: 130,
@@ -36,6 +37,37 @@ var Map = {
   PIN: document.querySelector('#pin').content.querySelector('.map__pin'),
   POPUP: document.querySelector('#card').content.querySelector('.map__card'),
 };
+
+var buttonHidden = document.querySelector('.map__pin--main');
+var adForm = document.querySelector('.ad-form');
+var roomsSelect = adForm.querySelector('select[name="rooms"]');
+var capacitySelect = adForm.querySelector('select[name="capacity"]');
+var adFormHeader = adForm.querySelectorAll('.ad-form-header');
+var adFormElements = adForm.querySelectorAll('.ad-form__element');
+var adFormSubmit = adForm.querySelectorAll('.ad-form__submit');
+var adFormReset = adForm.querySelectorAll('.ad-form__reset');
+var mapFilters = Enum.userDialog.querySelector('.map__filters');
+var mapFilter = mapFilters.querySelector('.map__filter');
+var mapCheckbox = mapFilters.querySelectorAll('.map__checkbox');
+var mapPinMain = Enum.userDialog.querySelector('.map__pin--main');
+
+var interfaceStart = function () {
+  Enum.userDialog.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  // makeFieldsAvailable();
+};
+
+buttonHidden.addEventListener('mousedown', function () {
+  interfaceStart();
+  main(COUNT)
+});
+
+buttonHidden.addEventListener('keydown', function (evt) {
+  if (evt.key === ENTER_KEY) {
+    interfaceStart();
+    main(COUNT)
+  };
+});
 
 var data = [];
 
@@ -76,7 +108,7 @@ var mockData = function (COUNT) {
 var getAvatarUrl = function (number) {
   var stringNumber = '' + number;
   return 'img/avatars/user' + stringNumber.padStart(2, '0') + '.png'
-}
+};
 
 var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -108,7 +140,6 @@ var renderPin = function (offer) {
   return pinElement;
 };
 
-
 var renderPopup = function (offer) {
   var popupElement = Map.POPUP.cloneNode(true);
 
@@ -120,9 +151,23 @@ var renderPopup = function (offer) {
   popupElement.querySelector('.popup__text--capacity').textContent = offer.offer.rooms + ' комнаты для ' + offer.offer.guests + ' гостей';
   popupElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.offer.checkin + ', выезд до ' + offer.offer.checkout;
   popupElement.querySelector('.popup__description').textContent = offer.offer.description;
+  popupElement.querySelector('.popup__photo').setAttribute('src', offer.offer.photos);
 
   return popupElement;
 };
+
+// var renderPhoto = function (apparts) {
+//   var photo = document.querySelector('.popup__photo');
+//   var photoEltment = document.querySelector('.popup__photos');
+//   var imagesList = popupElement.removeChild(photo);
+//   var fragmentPhoto = document.createDocumentFragment();
+//   photo.forEach( function (apparts) {
+//     imagesList.src = apparts.offer.photos[i];
+//     var clonePhoto = imagesList.cloneNode(true);
+//     fragmentPhoto.appendChild(clonePhoto);
+//   });
+//   return fragmentPhoto;
+// };
 
 var renderAds = function (getData) {
   var fragment = [];
@@ -132,15 +177,99 @@ var renderAds = function (getData) {
   return fragment;
 };
 
-var getData = mockData(COUNT);
-var fragment = renderAds(getData);
-fragment.forEach(function(item){
-  Enum.userDialog.appendChild(item);
-});
+var main = function (COUNT) {
+  // var getData = mockData(COUNT);
+  // var fragment = document.createDocumentFragment();
+  // getData.forEach (function (item) {
+  //   fragment.appendChild(item);
+  // });
+  // Enum.userDialog.appendChild(fragment);
 
-var addPopup = renderPopup(getData[1]);
-var getDiv2 = document.querySelector('.map__filters-container');
-var parentDiv = getDiv2.parentNode;
-parentDiv.insertBefore(addPopup, getDiv2);
+  var getData = mockData(COUNT);
+  var fragment = renderAds(getData);
+  fragment.forEach(function (item) {
+    Enum.userDialog.appendChild(item);
+  });
 
-Enum.userDialog.classList.remove('map--faded');
+  // делаем заполнение адресата!!! и почему то не работает
+  var getDefualtAdress = function () {
+    var coordinats = renderPin(mapPinMain);
+    var defaultsAddressField = adForm.querySelector('input[name="address"]');
+    defaultsAddressField.value = coordinates;
+  };
+
+  var makeElementsDisabled = function (array) {
+    for (var i = 0; i < array.length; i++) {
+      array[i].setAttribute('disabled', 'disabled');
+    }
+  };
+
+  var makeFormsDisable = function () {
+    makeElementsDisabled(adFormHeader);
+    makeElementsDisabled(adFormElements);
+    makeElementsDisabled(adFormSubmit);
+    makeElementsDisabled(adFormReset);
+    makeElementsDisabled(mapFilter);
+    makeElementsDisabled(mapCheckbox);
+  };
+
+  var makeElementsAvailable = function (array) {
+    for (var i = 0; i < array.length; i++) {
+      array[i].removeAttribute('disabled', 'disabled');
+    }
+  };
+
+  var makeFieldsAvailable = function () {
+    makeElementsAvailable(adFormHeader);
+    makeElementsAvailable(adFormElements);
+    makeElementsAvailable(mapFilter);
+    makeElementsAvailable(mapCheckbox);
+    makeElementsAvailable(adFormSubmit);
+    makeElementsAvailable(adFormReset);
+  };
+
+  makeFormsDisable();
+
+  var homeSelect = function () {
+    var roomsSelectValue = roomsSelect.value;
+    var capacitySelectValue = capacitySelect.value;
+    var message = '';
+    if (roomsSelectValue === '1') {
+      if (capacitySelectValue !== '1') {
+        message = 'Одну комнату может занимать только один гость';
+      }
+    }
+    if (roomsSelectValue === '2') {
+      if ((capacitySelectValue !== '1') && (capacitySelectValue !== '2')) {
+        message = 'Две комнаты может занимать только один или два гостя';
+      }
+    }
+    if (roomsSelectValue === '3') {
+      if ((capacitySelectValue !== '1') && (capacitySelectValue !== '2') && (capacitySelectValue !== '3')) {
+        message = 'Три комнаты может занимать только один, два или три гостя';
+      }
+    }
+    if (roomsSelectValue === '100') {
+      if (capacitySelectValue !== '0') {
+        message = 'Сто комнат не для гостей';
+      }
+    }
+    capacitySelect.setCustomValidity(message);
+  };
+
+  var adFormChangeHandler = function () {
+    homeSelect();
+  };
+
+
+  adForm.addEventListener('change', adFormChangeHandler);
+
+
+  var addPopup = renderPopup(getData[1]);
+  var getDiv2 = document.querySelector('.map__filters-container');
+  var parentDiv = getDiv2.parentNode;
+  parentDiv.insertBefore(addPopup, getDiv2);
+};
+
+// main(COUNT);
+// Enum.userDialog.classList.remove('map--faded');
