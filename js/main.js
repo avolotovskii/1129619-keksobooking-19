@@ -28,6 +28,12 @@ var PIN = {
   HEIGHT: 70,
 };
 
+var PHOTOS = [
+  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+];
+
 var Enum = {
   userDialog: document.querySelector('.map'),
   mapPins: document.querySelector('.map__pins'),
@@ -51,10 +57,49 @@ var mapFilter = mapFilters.querySelector('.map__filter');
 var mapCheckbox = mapFilters.querySelectorAll('.map__checkbox');
 var mapPinMain = Enum.userDialog.querySelector('.map__pin--main');
 
+var makeElementsDisabled = function (array) {
+  for (var i = 0; i < array.length; i++) {
+    array[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+var makeFormsDisable = function () {
+  makeElementsDisabled(adFormHeader);
+  makeElementsDisabled(adFormElements);
+  makeElementsDisabled(adFormSubmit);
+  makeElementsDisabled(adFormReset);
+  makeElementsDisabled(mapFilter);
+  makeElementsDisabled(mapCheckbox);
+};
+
+var makeElementsAvailable = function (array) {
+  for (var i = 0; i < array.length; i++) {
+    array[i].removeAttribute('disabled', 'disabled');
+  }
+};
+
+var makeFieldsAvailable = function () {
+  makeElementsAvailable(adFormHeader);
+  makeElementsAvailable(adFormElements);
+  makeElementsAvailable(mapFilter);
+  makeElementsAvailable(mapCheckbox);
+  makeElementsAvailable(adFormSubmit);
+  makeElementsAvailable(adFormReset);
+};
+
+// var getDefualtAdress = function () {
+//   var coordinats = renderPin(mapPinMain);
+//   var defaultsAddressField = adForm.querySelector('input[name="address"]');
+//   defaultsAddressField.value = coordinates;
+// };
+
+// getDefualtAdress();
+makeFormsDisable();
+
 var interfaceStart = function () {
   Enum.userDialog.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
-  // makeFieldsAvailable();
+  makeFieldsAvailable();
 };
 
 buttonHidden.addEventListener('mousedown', function () {
@@ -123,6 +168,15 @@ var getRandomElement = function (element) {
   return element[rand];
 };
 
+// пробую что то придумать с фото номеров
+var getRandomphotos = function (array) {
+  var photos = [];
+  for (var i = 0; i < array.length; i++) {
+    photos.push(array);
+  }
+  return photos;
+};
+
 var getRandomItems = function (items) {
   return items.filter(rand);
 };
@@ -156,19 +210,6 @@ var renderPopup = function (offer) {
   return popupElement;
 };
 
-// var renderPhoto = function (apparts) {
-//   var photo = document.querySelector('.popup__photo');
-//   var photoEltment = document.querySelector('.popup__photos');
-//   var imagesList = popupElement.removeChild(photo);
-//   var fragmentPhoto = document.createDocumentFragment();
-//   photo.forEach( function (apparts) {
-//     imagesList.src = apparts.offer.photos[i];
-//     var clonePhoto = imagesList.cloneNode(true);
-//     fragmentPhoto.appendChild(clonePhoto);
-//   });
-//   return fragmentPhoto;
-// };
-
 var renderAds = function (getData) {
   var fragment = [];
   getData.forEach(function (item) {
@@ -192,43 +233,11 @@ var main = function (COUNT) {
   });
 
   // делаем заполнение адресата!!! и почему то не работает
-  var getDefualtAdress = function () {
-    var coordinats = renderPin(mapPinMain);
-    var defaultsAddressField = adForm.querySelector('input[name="address"]');
-    defaultsAddressField.value = coordinates;
-  };
-
-  var makeElementsDisabled = function (array) {
-    for (var i = 0; i < array.length; i++) {
-      array[i].setAttribute('disabled', 'disabled');
-    }
-  };
-
-  var makeFormsDisable = function () {
-    makeElementsDisabled(adFormHeader);
-    makeElementsDisabled(adFormElements);
-    makeElementsDisabled(adFormSubmit);
-    makeElementsDisabled(adFormReset);
-    makeElementsDisabled(mapFilter);
-    makeElementsDisabled(mapCheckbox);
-  };
-
-  var makeElementsAvailable = function (array) {
-    for (var i = 0; i < array.length; i++) {
-      array[i].removeAttribute('disabled', 'disabled');
-    }
-  };
-
-  var makeFieldsAvailable = function () {
-    makeElementsAvailable(adFormHeader);
-    makeElementsAvailable(adFormElements);
-    makeElementsAvailable(mapFilter);
-    makeElementsAvailable(mapCheckbox);
-    makeElementsAvailable(adFormSubmit);
-    makeElementsAvailable(adFormReset);
-  };
-
-  makeFormsDisable();
+  // var getDefualtAdress = function () {
+  //   var coordinats = 'Ghbdtn';
+  //   var defaultsAddressField = adForm.querySelector('input[name="address"]');
+  //   defaultsAddressField.value = coordinates;
+  // };
 
   var homeSelect = function () {
     var roomsSelectValue = roomsSelect.value;
@@ -270,6 +279,3 @@ var main = function (COUNT) {
   var parentDiv = getDiv2.parentNode;
   parentDiv.insertBefore(addPopup, getDiv2);
 };
-
-// main(COUNT);
-// Enum.userDialog.classList.remove('map--faded');
