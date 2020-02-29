@@ -125,7 +125,7 @@ var mockData = function (COUNT) {
     var ava = AVATAR[i];
     data.push({
       "author": {
-        "avatar": getAvatarUrl(ava),
+        "avatar": getAvatarUrl(AVATAR[i]),
       },
       "offer": {
         "title": getRandomElement(TITLE),
