@@ -28,12 +28,6 @@ var PIN = {
   HEIGHT: 70,
 };
 
-// var PHOTOS = [
-//   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-//   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-//   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
-// ];
-
 var Enum = {
   userDialog: document.querySelector('.map'),
   mapPins: document.querySelector('.map__pins'),
@@ -172,7 +166,7 @@ var getRandomElement = function (element) {
 var getRandomPhotos = function (array) {
   var photos = [];
   for (var i = 0; i < array.length; i++) {
-    photos.push(array);
+    photos.push(array[i]);
   }
   return photos;
 };
@@ -193,7 +187,6 @@ var renderPin = function (offer) {
 
   return pinElement;
 };
-
 
 
 var renderPopup = function (offer) {
@@ -273,11 +266,3 @@ var adFormChangeHandler = function () {
 
 
 adForm.addEventListener('change', adFormChangeHandler);
-
-var getDefualtAdress = function () {
-  var coordinats = getData(adres);
-  var defaultsAddressField = adForm.querySelector('input[name="address"]');
-  defaultsAddressField.value = coordinats;
-};
-
-getDefualtAdress();
