@@ -28,11 +28,11 @@ var PIN = {
   HEIGHT: 70,
 };
 
-var PHOTOS = [
-  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
-];
+// var PHOTOS = [
+//   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+//   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+//   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+// ];
 
 var Enum = {
   userDialog: document.querySelector('.map'),
@@ -87,13 +87,14 @@ var makeFieldsAvailable = function () {
   makeElementsAvailable(adFormReset);
 };
 
-// var getDefualtAdress = function () {
-//   var coordinats = renderPin(mapPinMain);
-//   var defaultsAddressField = adForm.querySelector('input[name="address"]');
-//   defaultsAddressField.value = coordinates;
-// };
+//Не могу корректно заполнить строку 92(((((
+var getDefualtAdress = function () {
+  var coordinats = 'проверка';
+  var defaultsAddressField = adForm.querySelector('input[name="address"]');
+  defaultsAddressField.value = coordinats;
+};
 
-// getDefualtAdress();
+getDefualtAdress();
 makeFormsDisable();
 
 var interfaceStart = function () {
@@ -122,7 +123,6 @@ var mockData = function (COUNT) {
     var randomX = getRandom(Coords.X.MIN, Coords.X.MAX + 1);
     var randomY = getRandom(Coords.Y.MIN, Coords.Y.MAX + 1);
     var check = getRandomElement(TIMES);
-    var ava = AVATAR[i];
     data.push({
       "author": {
         "avatar": getAvatarUrl(AVATAR[i]),
@@ -138,7 +138,7 @@ var mockData = function (COUNT) {
         "checkout": TIMES,
         "features": getRandomItems(FEATURES),
         "description": getRandomElement(DESCRIPTION),
-        "photos": getRandomElement(PHOTOS),
+        "photos": getRandomPhotos(PHOTOS),
       },
 
       "location": {
@@ -168,8 +168,8 @@ var getRandomElement = function (element) {
   return element[rand];
 };
 
-// пробую что то придумать с фото комнат
-var getRandomphotos = function (array) {
+// пробую что то придумать с фото комнат - проиграл(((
+var getRandomPhotos = function (array) {
   var photos = [];
   for (var i = 0; i < array.length; i++) {
     photos.push(array);
@@ -193,6 +193,8 @@ var renderPin = function (offer) {
 
   return pinElement;
 };
+
+
 
 var renderPopup = function (offer) {
   var popupElement = Map.POPUP.cloneNode(true);
@@ -232,50 +234,50 @@ var main = function (COUNT) {
     Enum.userDialog.appendChild(item);
   });
 
-  // делаем заполнение адресата!!! и почему то не работает
-  // var getDefualtAdress = function () {
-  //   var coordinats = 'Ghbdtn';
-  //   var defaultsAddressField = adForm.querySelector('input[name="address"]');
-  //   defaultsAddressField.value = coordinates;
-  // };
-
-  var homeSelect = function () {
-    var roomsSelectValue = roomsSelect.value;
-    var capacitySelectValue = capacitySelect.value;
-    var message = '';
-    if (roomsSelectValue === '1') {
-      if (capacitySelectValue !== '1') {
-        message = 'Одну комнату может занимать только один гость';
-      }
-    }
-    if (roomsSelectValue === '2') {
-      if ((capacitySelectValue !== '1') && (capacitySelectValue !== '2')) {
-        message = 'Две комнаты может занимать только один или два гостя';
-      }
-    }
-    if (roomsSelectValue === '3') {
-      if ((capacitySelectValue !== '1') && (capacitySelectValue !== '2') && (capacitySelectValue !== '3')) {
-        message = 'Три комнаты может занимать только один, два или три гостя';
-      }
-    }
-    if (roomsSelectValue === '100') {
-      if (capacitySelectValue !== '0') {
-        message = 'Сто комнат не для гостей';
-      }
-    }
-    capacitySelect.setCustomValidity(message);
-  };
-
-  var adFormChangeHandler = function () {
-    homeSelect();
-  };
-
-
-  adForm.addEventListener('change', adFormChangeHandler);
-
-
   var addPopup = renderPopup(getData[1]);
   var getDiv2 = document.querySelector('.map__filters-container');
   var parentDiv = getDiv2.parentNode;
   parentDiv.insertBefore(addPopup, getDiv2);
 };
+
+var homeSelect = function () {
+  var roomsSelectValue = roomsSelect.value;
+  var capacitySelectValue = capacitySelect.value;
+  var message = '';
+  if (roomsSelectValue === '1') {
+    if (capacitySelectValue !== '1') {
+      message = 'Одну комнату может занимать только один гость';
+    }
+  }
+  if (roomsSelectValue === '2') {
+    if ((capacitySelectValue !== '1') && (capacitySelectValue !== '2')) {
+      message = 'Две комнаты может занимать только один или два гостя';
+    }
+  }
+  if (roomsSelectValue === '3') {
+    if ((capacitySelectValue !== '1') && (capacitySelectValue !== '2') && (capacitySelectValue !== '3')) {
+      message = 'Три комнаты может занимать только один, два или три гостя';
+    }
+  }
+  if (roomsSelectValue === '100') {
+    if (capacitySelectValue !== '0') {
+      message = 'Сто комнат не для гостей';
+    }
+  }
+  capacitySelect.setCustomValidity(message);
+};
+
+var adFormChangeHandler = function () {
+  homeSelect();
+};
+
+
+adForm.addEventListener('change', adFormChangeHandler);
+
+var getDefualtAdress = function () {
+  var coordinats = getData(adres);
+  var defaultsAddressField = adForm.querySelector('input[name="address"]');
+  defaultsAddressField.value = coordinats;
+};
+
+getDefualtAdress();
