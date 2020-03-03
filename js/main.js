@@ -115,13 +115,13 @@ var startInterface = function () {
 
 Element.BUTTON_HIDDEN.addEventListener('mousedown', function () {
   startInterface();
-  main(COUNT)
+  main(COUNT);
 });
 
 Element.BUTTON_HIDDEN.addEventListener('keydown', function (evt) {
   if (evt.key === ENTER_KEY) {
     startInterface();
-    main(COUNT)
+    main(COUNT);
   };
 });
 
@@ -148,7 +148,7 @@ var mockData = function (COUNT) {
         "checkout": TIMES,
         "features": getRandomItems(FEATURES),
         "description": getRandomElement(DESCRIPTION),
-        "photos": getRandomElement(PHOTOS),
+        "photos": getRandomPhotos(PHOTOS),
       },
 
       "location": {
@@ -174,7 +174,7 @@ var rand = function () {
 };
 
 var getRandomElement = function (element) {
-  var rand = Math.floor(Math.random() * element.length);
+  var rand = getRandom(0, element.length);
   return element[rand];
 };
 
@@ -210,7 +210,7 @@ var renderPopup = function (offer) {
   popupElement.querySelector('.popup__avatar').setAttribute('src', offer.author.avatar);
   popupElement.querySelector('.popup__title').textContent = offer.offer.title;
   popupElement.querySelector('.popup__text--address').textContent = offer.offer.address;
-  popupElement.querySelector('.popup__text--price').textContent = offer.offer.price;
+  popupElement.querySelector('.popup__text--price').textContent = offer.offer.price + ' ₽/ночь';
   popupElement.querySelector('.popup__type').textContent = offer.offer.type;
   popupElement.querySelector('.popup__text--capacity').textContent = offer.offer.rooms + ' комнаты для ' + offer.offer.guests + ' гостей';
   popupElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.offer.checkin + ', выезд до ' + offer.offer.checkout;
@@ -231,7 +231,11 @@ var renderAds = function (getData) {
 var main = function (COUNT) {
   var data = mockData(COUNT);
   var fragment = renderAds(data);
-  Element.MAP_PIN.appendChild(fragment);
+  console.log(Element.MAP_PINS);
+  // fragment.forEach(function (item) {
+  //   Element.USER_DIALOG.appendChild(item)
+  // })
+  Element.MAP_PINS.appendChild(fragment);
 
   var addPopup = renderPopup(data[1]);
   var parentDiv = MAP_CONTAINER.parentNode;
