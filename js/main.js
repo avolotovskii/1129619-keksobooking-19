@@ -13,6 +13,7 @@ var MIN_PRICE = 1000;
 var MAX_PRICE = 4000;
 var COUNT = 8;
 var ENTER_KEY = 'Enter';
+var LEFT_MOUSE = 1;
 var Coords = {
   Y: {
     MIN: 130,
@@ -113,9 +114,11 @@ var startInterface = function () {
   makeFormsAvailable();
 };
 
-Element.BUTTON_HIDDEN.addEventListener('mousedown', function () {
-  startInterface();
-  main(COUNT);
+Element.BUTTON_HIDDEN.addEventListener('mousedown', function (evt) {
+  if (evt.which === LEFT_MOUSE) {
+    startInterface();
+    main(COUNT);
+  }
 });
 
 Element.BUTTON_HIDDEN.addEventListener('keydown', function (evt) {
@@ -181,9 +184,9 @@ var getRandomElement = function (element) {
 var getRandomPhotos = function (photos) {
   var fragmentPhotos = document.createDocumentFragment();
   photos.forEach(function (item) {
-    item.appendChild(renderPopup(photos[item]));
-  })
-  POPUP_PHOTOS.appendChild.fragmentPhotos;
+    fragmentPhotos.appendChild(renderPopup(item));
+  });
+  return fragmentPhotos;
 };
 
 var getRandomItems = function (items) {
@@ -215,15 +218,15 @@ var renderPopup = function (offer) {
   popupElement.querySelector('.popup__text--capacity').textContent = offer.offer.rooms + ' комнаты для ' + offer.offer.guests + ' гостей';
   popupElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.offer.checkin + ', выезд до ' + offer.offer.checkout;
   popupElement.querySelector('.popup__description').textContent = offer.offer.description;
-  popupElement.querySelector('.popup__photos').setAttribute('src', offer.offer.photos);
+  popupElement.querySelector('.popup__photo').setAttribute('src', offer.offer.photos);
 
   return popupElement;
 };
 
 var renderAds = function (getData) {
-  var fragment = [];
+  var fragment = document.createDocumentFragment();
   getData.forEach(function (item) {
-    fragment.push(renderPin(item));
+    fragment.appendChild(renderPin(item));
   });
   return fragment;
 };
@@ -231,11 +234,8 @@ var renderAds = function (getData) {
 var main = function (COUNT) {
   var data = mockData(COUNT);
   var fragment = renderAds(data);
-  console.log(Element.MAP_PINS);
-  // fragment.forEach(function (item) {
-  //   Element.USER_DIALOG.appendChild(item)
-  // })
   Element.MAP_PINS.appendChild(fragment);
+  POPUP_PHOTO.appendChild(fragmentPhotos);
 
   var addPopup = renderPopup(data[1]);
   var parentDiv = MAP_CONTAINER.parentNode;
