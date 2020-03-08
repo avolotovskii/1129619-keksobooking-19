@@ -151,7 +151,7 @@ var mockData = function (COUNT) {
         "checkout": TIMES,
         "features": getRandomItems(FEATURES),
         "description": getRandomElement(DESCRIPTION),
-        "photos": getRandomPhotos(PHOTOS),
+        "photos": getRandomElement(PHOTOS),
       },
 
       "location": {
@@ -234,8 +234,9 @@ var renderAds = function (getData) {
 var main = function (COUNT) {
   var data = mockData(COUNT);
   var fragment = renderAds(data);
+
   Element.MAP_PINS.appendChild(fragment);
-  POPUP_PHOTO.appendChild(fragmentPhotos);
+  // POPUP_PHOTO.appendChild(fragmentPhotos);
 
   var addPopup = renderPopup(data[1]);
   var parentDiv = MAP_CONTAINER.parentNode;
@@ -248,17 +249,17 @@ var homeSelect = function () {
   var message = '';
   if (roomsSelectValue === '1') {
     if (capacitySelectValue !== '1') {
-      message = 'Одну комнату может занимать только один гость';
+      message = 'Одна комната только для одного гостя';
     }
   }
   if (roomsSelectValue === '2') {
     if ((capacitySelectValue !== '1') && (capacitySelectValue !== '2')) {
-      message = 'Две комнаты может занимать только один или два гостя';
+      message = 'Две комнаты только для один или дввух гостей';
     }
   }
   if (roomsSelectValue === '3') {
     if ((capacitySelectValue !== '1') && (capacitySelectValue !== '2') && (capacitySelectValue !== '3')) {
-      message = 'Три комнаты может занимать только один, два или три гостя';
+      message = 'Три комнаты только для одного, двух или трех гостей';
     }
   }
   if (roomsSelectValue === '100') {
