@@ -12,29 +12,24 @@ var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.g
 var MIN_PRICE = 1000;
 var MAX_PRICE = 4000;
 var ENTER_KEY = 'Enter';
-var LEFT_MOUSE = 1;
-var Coords = {
-  Y: {
-    MIN: 130,
-    MAX: 630,
-  },
-  X: {
-    MIN: 0,
-    MAX: document.querySelector('.map').clientWidth,
-  },
-};
+var LEFT_MOUSE = 0;
+var COORDS_Y_MIN = 130;
+var COORDS_Y_MAX = 630;
+var COORDS_X_MIN = 0;
 var PIN = {
   WIDTH: 60,
   HEIGHT: 70,
 };
-var quantityPins = 8;
+var PINS_QUANTITY = 8;
 
+var coordsXMax = document.querySelector('.map').clientWidth;
 var userDialog = document.querySelector('.map');
-var mapPins = document.querySelector('.map__pins');
+// var mapPins = document.querySelectorAll('.map__pins:not(.map__pin--main)'); я так понял, это нам пригодитьсы дальше
 var mainPin = document.querySelector('.map__pin--main');
 var formAd = document.querySelector('.ad-form');
 var mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
 var mapPopup = document.querySelector('#card').content.querySelector('.map__card');
+var similarPinElement = document.querySelector('.map__pins');
 
 var roomsSelect = formAd.querySelector('select[name="rooms"]');
 var capacitySelect = formAd.querySelector('select[name="capacity"]');
@@ -78,8 +73,8 @@ var makeFormsAvailable = function () {
 };
 
 var setDefaultAdress = function () {
-  var randomX = getRandom(Coords.X.MIN, Coords.X.MAX);
-  var randomY = getRandom(Coords.Y.MIN, Coords.Y.MAX);
+  var randomX = getRandom(COORDS_X_MIN, coordsXMax);
+  var randomY = getRandom(COORDS_Y_MIN, COORDS_Y_MAX);
   var coordinats = randomX + ', ' + randomY;
   defaultsAddressField.value = coordinats;
 };
@@ -88,32 +83,32 @@ var startInterface = function () {
   userDialog.classList.remove('map--faded');
   formAd.classList.remove('ad-form--disabled');
   makeFormsAvailable();
-  mainPin.removeEventListener('mousedown', activateMapMouse);
-  mainPin.removeEventListener('keydown', activateMapKeydown);
+  mainPin.removeEventListener('mousedown', majorPinClickHandler);
+  mainPin.removeEventListener('keydown', majorPinKeydownHandler);
 };
 
-var activateMapMouse = function (evt) {
-  if (evt.which === LEFT_MOUSE) {
+var majorPinClickHandler = function (evt) {
+  if (evt.button === LEFT_MOUSE) {
     startInterface();
-    main(quantityPins);
+    getBasicPin(PINS_QUANTITY);
   }
 };
 
-var activateMapKeydown = function (evt) {
+var majorPinKeydownHandler = function (evt) {
   if (evt.key === ENTER_KEY) {
     startInterface();
-    main(quantityPins);
+    getBasicPin(PINS_QUANTITY);
   }
 };
 
-mainPin.addEventListener('mousedown', activateMapMouse);
-mainPin.addEventListener('keydown', activateMapKeydown);
+mainPin.addEventListener('mousedown', majorPinClickHandler);
+mainPin.addEventListener('keydown', majorPinKeydownHandler);
 
-var mockData = function (countPins) {
+var getMockData = function (countPins) {
   var data = [];
   for (var i = 0; i < countPins; i++) {
-    var randomX = getRandom(Coords.X.MIN, Coords.X.MAX);
-    var randomY = getRandom(Coords.Y.MIN, Coords.Y.MAX);
+    var randomX = getRandom(COORDS_X_MIN, coordsXMax);
+    var randomY = getRandom(COORDS_Y_MIN, COORDS_Y_MAX);
     var check = getRandomElement(TIMES);
     data.push({
       'author': {
@@ -151,9 +146,9 @@ var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-var getRandomElement = function (element) {
-  var getRandBinary = getRandom(0, element.length);
-  return element[getRandBinary];
+var getRandomElement = function (elements) {
+  var getRandNumber = getRandom(0, elements.length);
+  return elements[getRandNumber];
 };
 
 var getRandomArray = function (arr) {
@@ -162,8 +157,8 @@ var getRandomArray = function (arr) {
 
 var renderPin = function (offer) {
   var pinElement = mapPin.cloneNode(true);
-  var pinX = getRandom(Coords.X.MIN, Coords.X.MAX) - PIN.WIDTH / 2;
-  var pinY = getRandom(Coords.Y.MIN, Coords.Y.MAX) - PIN.HEIGHT;
+  var pinX = getRandom(COORDS_X_MIN, coordsXMax) - PIN.WIDTH / 2;
+  var pinY = getRandom(COORDS_Y_MIN, COORDS_Y_MAX) - PIN.HEIGHT;
 
   pinElement.setAttribute('style', 'left: ' + pinX + 'px; ' + 'top: ' + pinY + 'px;');
 
@@ -198,13 +193,11 @@ var renderAds = function (getData) {
   return fragment;
 };
 
-var main = function (countPins) {
-  var data = mockData(countPins);
+var getBasicPin = function (countPins) {
+  var data = getMockData(countPins);
   var fragment = renderAds(data);
 
-  mapPins.appendChild(fragment);
-  // POPUP_PHOTO.appendChild(fragmentPhotos);
-
+  similarPinElement.appendChild(fragment);
 
   var addPopup = renderPopup(data[1]);
   var parentDiv = mapContainer.parentNode;
