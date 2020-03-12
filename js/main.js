@@ -90,14 +90,14 @@ var startInterface = function () {
 var majorPinClickHandler = function (evt) {
   if (evt.button === LEFT_MOUSE) {
     startInterface();
-    getBasicPin(PINS_QUANTITY);
+    createBasicPin(PINS_QUANTITY);
   }
 };
 
 var majorPinKeydownHandler = function (evt) {
   if (evt.key === ENTER_KEY) {
     startInterface();
-    getBasicPin(PINS_QUANTITY);
+    createBasicPin(PINS_QUANTITY);
   }
 };
 
@@ -193,7 +193,7 @@ var renderAds = function (getData) {
   return fragment;
 };
 
-var getBasicPin = function (countPins) {
+var createBasicPin = function (countPins) {
   var data = getMockData(countPins);
   var fragment = renderAds(data);
 
