@@ -232,8 +232,8 @@ var createBasicPin = function (countPins) {
   parentDiv.insertBefore(addPopup, mapContainer);
 };
 
-var renderPopupInfo = function (PINS_QUANTITY) {
-  var data = getMockData(PINS_QUANTITY);
+var renderPopupInfo = function (countPin) {
+  var data = getMockData(countPin);
   var addPopup = renderPopup(data[0]);
   var parentDiv = mapContainer.parentNode;
   parentDiv.insertBefore(addPopup, mapContainer);
