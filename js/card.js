@@ -2,7 +2,6 @@
 (function () {
   var mapPopup = document.querySelector('#card').content.querySelector('.map__card');
 
-
   var renderPopup = function (offer) {
     var popupElement = mapPopup.cloneNode(true);
     var popupCloseElement = popupElement.querySelector('.popup__close');
@@ -61,7 +60,6 @@
       cardElement.remove();
     }
   };
-
 
   window.card = {
     createBasicPin: createBasicPin,

@@ -14,7 +14,7 @@
   var COORDS_Y_MIN = 130;
   var COORDS_Y_MAX = 630;
   var COORDS_X_MIN = 0;
-  var coordsXMax = document.querySelector('.map').clientWidth;
+  var coordsXMax = document.querySelector('.map').clientWidth; // перенести в card.js
 
   var getMockData = function (countPins) {
     var data = [];
