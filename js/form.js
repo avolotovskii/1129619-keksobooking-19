@@ -5,7 +5,7 @@
   var adFormElements = formAd.querySelectorAll('.ad-form__element');
   var adFormSubmit = formAd.querySelectorAll('.ad-form__submit');
   var adFormReset = formAd.querySelectorAll('.ad-form__reset');
-  var mapCheckbox = window.map.querySelectorAll('.map__checkbox');
+  var mapCheckbox = document.querySelectorAll('.map__checkbox');
   var defaultsAddressField = formAd.querySelector('input[name="address"]');
   var priceElement = formAd.querySelector('#price');
   var roomsSelect = formAd.querySelector('select[name="rooms"]');
