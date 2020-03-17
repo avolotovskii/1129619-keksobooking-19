@@ -5,7 +5,6 @@ var LEFT_MOUSE = 0;
 var PINS_QUANTITY = 8;
 
 // var mapPins = document.querySelectorAll('.map__pins:not(.map__pin--main)'); я так понял, это нам пригодитьсы дальше
-var formAd = document.querySelector('.ad-form');
 
 var majorPinClickHandler = function (evt) {
   if (evt.button === LEFT_MOUSE) {

@@ -136,5 +136,7 @@
     formAd: formAd,
     checkinChangeHandler: checkinChangeHandler,
     checkoutChangeHandler: checkoutChangeHandler,
+    houseTypeChangeHandler: houseTypeChangeHandler,
+    houseTypeElement: houseTypeElement
   };
 })();

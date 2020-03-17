@@ -11,7 +11,7 @@
 
     window.other.checkinElement.addEventListener('change', window.form.checkinChangeHandler);
     window.form.checkoutElement.addEventListener('change', window.form.checkoutChangeHandler);
-    houseeTypeElement.addEventListener('change', housTypeChangeHandler);
+    window.form.houseTypeElement.addEventListener('change', window.form.houseTypeChangeHandler);
   };
 
   window.map = {
