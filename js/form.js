@@ -57,10 +57,6 @@
   setDefaultAdress();
   makeFormsDisable();
 
-  window.form = {
-    makeFormsAvailable: makeFormsAvailable
-  };
-
   var houseTypeChangeHandler = function () {
     switch (houseTypeElement.value) {
       case 'bungalo':
@@ -137,6 +133,7 @@
     checkinChangeHandler: checkinChangeHandler,
     checkoutChangeHandler: checkoutChangeHandler,
     houseTypeChangeHandler: houseTypeChangeHandler,
-    houseTypeElement: houseTypeElement
+    houseTypeElement: houseTypeElement,
+    makeFormsAvailable: makeFormsAvailable
   };
 })();
