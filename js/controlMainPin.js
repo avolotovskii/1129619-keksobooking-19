@@ -34,11 +34,12 @@ var majorPinCloseKeydownHandler = function (evt) {
 };
 
 
-window.other = {
+window.controlMainPin = {
   majorPinCloseKeydownHandler: majorPinCloseKeydownHandler,
   majorPinClickHandler: majorPinClickHandler,
   majorPinKeydownHandler: majorPinKeydownHandler,
   LEFT_MOUSE: LEFT_MOUSE,
   PINS_QUANTITY: PINS_QUANTITY,
-  ESC_KEY: ESC_KEY
+  ESC_KEY: ESC_KEY,
+  mainPin: mainPin
 };

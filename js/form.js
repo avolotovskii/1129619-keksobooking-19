@@ -134,6 +134,8 @@
     checkoutChangeHandler: checkoutChangeHandler,
     houseTypeChangeHandler: houseTypeChangeHandler,
     houseTypeElement: houseTypeElement,
-    makeFormsAvailable: makeFormsAvailable
+    makeFormsAvailable: makeFormsAvailable,
+    checkinElement: checkinElement,
+    checkoutElement: checkoutElement
   };
 })();

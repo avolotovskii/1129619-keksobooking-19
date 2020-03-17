@@ -17,16 +17,16 @@
     pinElement.querySelector('img').setAttribute('alt', offer.title);
 
     pinElement.addEventListener('mousedown', function (evt) {
-      if (evt.button === window.other.LEFT_MOUSE) {
+      if (evt.button === window.controlMainPin.LEFT_MOUSE) {
         window.card.closeBasicPopup();
-        window.card.renderPopupInfo(window.other.PINS_QUANTITY);
+        window.card.renderPopupInfo(window.controlMainPin.PINS_QUANTITY);
       }
     });
 
     pinElement.addEventListener('keydown', function (evt) {
-      if (evt.key === window.other.ESC_KEY) {
+      if (evt.key === window.controlMainPin.ESC_KEY) {
         window.card.closeBasicPopup();
-        window.card.renderPopupInfo(window.other.PINS_QUANTITY);
+        window.card.renderPopupInfo(window.controlMainPin.PINS_QUANTITY);
       }
     });
 

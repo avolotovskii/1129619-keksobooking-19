@@ -5,7 +5,7 @@
   var similarPinElement = document.querySelector('.map__pins');
   var mapContainer = document.querySelector('.map__filters-container');
   var majorPinCloseClickHandler = function (evt) {
-    if (evt.button === window.other.LEFT_MOUSE) {
+    if (evt.button === window.controlMainPin.LEFT_MOUSE) {
       window.card.closeBasicPopup();
     }
   };
@@ -25,7 +25,7 @@
     popupElement.querySelector('.popup__photo').setAttribute('src', offer.offer.photos);
 
     popupCloseElement.addEventListener('click', majorPinCloseClickHandler);
-    window.addEventListener('keydown', window.other.majorPinCloseKeydownHandler);
+    window.addEventListener('keydown', window.controlMainPin.majorPinCloseKeydownHandler);
 
     return popupElement;
   };
@@ -63,7 +63,7 @@
       var popupCloseElement = cardElement.querySelector('.popup__close');
 
       popupCloseElement.removeEventListener('click', majorPinCloseClickHandler);
-      window.removeEventListener('keydown', window.other.majorPinCloseKeydownHandler);
+      window.removeEventListener('keydown', window.controlMainPin.majorPinCloseKeydownHandler);
 
       cardElement.remove();
     }
