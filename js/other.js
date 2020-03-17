@@ -3,6 +3,7 @@ var ENTER_KEY = 'Enter';
 var ESC_KEY = 'Escape';
 var LEFT_MOUSE = 0;
 var PINS_QUANTITY = 8;
+var mainPin = document.querySelector('.map__pin--main');
 
 // var mapPins = document.querySelectorAll('.map__pins:not(.map__pin--main)'); я так понял, это нам пригодитьсы дальше
 
