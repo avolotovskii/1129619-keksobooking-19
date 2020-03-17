@@ -1,8 +1,14 @@
 'use strict';
 (function () {
+  var PIN = {
+    WIDTH: 60,
+    HEIGHT: 70,
+  };
+  var mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
+
   var renderPin = function (offer) {
     var pinElement = mapPin.cloneNode(true);
-    var pinX = window.utilits.getRandom(window.data.COORDS_X_MIN, window.data.coordsXMax) - PIN.WIDTH / 2;
+    var pinX = window.utilits.getRandom(window.data.COORDS_X_MIN, window.card.coordsXMax) - PIN.WIDTH / 2;
     var pinY = window.utilits.getRandom(window.data.COORDS_Y_MIN, window.data.COORDS_Y_MAX) - PIN.HEIGHT;
 
     pinElement.setAttribute('style', 'left: ' + pinX + 'px; ' + 'top: ' + pinY + 'px;');
@@ -11,16 +17,16 @@
     pinElement.querySelector('img').setAttribute('alt', offer.title);
 
     pinElement.addEventListener('mousedown', function (evt) {
-      if (evt.button === LEFT_MOUSE) {
+      if (evt.button === window.other.LEFT_MOUSE) {
         window.card.closeBasicPopup();
-        window.card.renderPopupInfo(PINS_QUANTITY);
+        window.card.renderPopupInfo(window.other.PINS_QUANTITY);
       }
     });
 
     pinElement.addEventListener('keydown', function (evt) {
-      if (evt.key === ESC_KEY) {
+      if (evt.key === window.other.ESC_KEY) {
         window.card.closeBasicPopup();
-        window.card.renderPopupInfo(PINS_QUANTITY);
+        window.card.renderPopupInfo(window.other.PINS_QUANTITY);
       }
     });
 

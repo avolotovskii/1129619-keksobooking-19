@@ -1,6 +1,14 @@
 'use strict';
 (function () {
   var mapPopup = document.querySelector('#card').content.querySelector('.map__card');
+  var coordsXMax = document.querySelector('.map').clientWidth;
+  var similarPinElement = document.querySelector('.map__pins');
+  var mapContainer = document.querySelector('.map__filters-container');
+  var majorPinCloseClickHandler = function (evt) {
+    if (evt.button === window.other.LEFT_MOUSE) {
+      window.card.closeBasicPopup();
+    }
+  };
 
   var renderPopup = function (offer) {
     var popupElement = mapPopup.cloneNode(true);
@@ -16,8 +24,8 @@
     popupElement.querySelector('.popup__description').textContent = offer.offer.description;
     popupElement.querySelector('.popup__photo').setAttribute('src', offer.offer.photos);
 
-    popupCloseElement.addEventListener('click', window.card.majorPinCloseClickHandler);
-    window.addEventListener('keydown', majorPinCloseKeydownHandler);
+    popupCloseElement.addEventListener('click', majorPinCloseClickHandler);
+    window.addEventListener('keydown', window.other.majorPinCloseKeydownHandler);
 
     return popupElement;
   };
@@ -31,7 +39,7 @@
   };
 
   var createBasicPin = function (countPins) {
-    var data = window.data.getMockData(countPins);
+    var data = window.data.getData(countPins);
     var fragment = renderAds(data);
 
     similarPinElement.appendChild(fragment);
@@ -42,26 +50,27 @@
   };
 
   var renderPopupInfo = function (countPin) {
-    var data = window.data.getMockData(countPin);
+    var data = window.data.getData(countPin);
     var addPopup = renderPopup(data[0]);
     var parentDiv = mapContainer.parentNode;
     parentDiv.insertBefore(addPopup, mapContainer);
   };
 
   var closeBasicPopup = function () {
-    var cardElement = userDialog.querySelector('.popup');
+    var cardElement = window.map.userDialog.querySelector('.popup');
 
     if (cardElement) {
       var popupCloseElement = cardElement.querySelector('.popup__close');
 
-      popupCloseElement.removeEventListener('click', window.card.majorPinCloseClickHandler);
-      window.removeEventListener('keydown', majorPinCloseKeydownHandler);
+      popupCloseElement.removeEventListener('click', majorPinCloseClickHandler);
+      window.removeEventListener('keydown', window.other.majorPinCloseKeydownHandler);
 
       cardElement.remove();
     }
   };
 
   window.card = {
+    coordsXMax: coordsXMax,
     createBasicPin: createBasicPin,
     closeBasicPopup: closeBasicPopup,
     renderPopupInfo: renderPopupInfo

@@ -14,12 +14,11 @@
   var COORDS_Y_MIN = 130;
   var COORDS_Y_MAX = 630;
   var COORDS_X_MIN = 0;
-  var coordsXMax = document.querySelector('.map').clientWidth; // перенести в card.js
 
-  var getMockData = function (countPins) {
+  var getData = function (countPins) {
     var data = [];
     for (var i = 0; i < countPins; i++) {
-      var randomX = window.utilits.getRandom(COORDS_X_MIN, coordsXMax);
+      var randomX = window.utilits.getRandom(COORDS_X_MIN, window.card.coordsXMax);
       var randomY = window.utilits.getRandom(COORDS_Y_MIN, COORDS_Y_MAX);
       var check = window.utilits.getRandomElement(TIMES);
       data.push({
@@ -49,8 +48,7 @@
     return data;
   };
   window.data = {
-    getMockData: getMockData,
-    coordsXMax: coordsXMax,
+    getData: getData,
     COORDS_Y_MIN: COORDS_Y_MIN,
     COORDS_Y_MAX: COORDS_Y_MAX,
     COORDS_X_MIN: COORDS_X_MIN

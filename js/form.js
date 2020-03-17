@@ -1,14 +1,23 @@
 'use strict';
 (function () {
-  var userDialog = document.querySelector('.map');
   var formAd = document.querySelector('.ad-form');
   var adFormHeader = formAd.querySelectorAll('.ad-form-header');
   var adFormElements = formAd.querySelectorAll('.ad-form__element');
   var adFormSubmit = formAd.querySelectorAll('.ad-form__submit');
   var adFormReset = formAd.querySelectorAll('.ad-form__reset');
-  var mapFilters = userDialog.querySelector('.map__filters');
-  var mapCheckbox = mapFilters.querySelectorAll('.map__checkbox');
+  var mapCheckbox = window.map.querySelectorAll('.map__checkbox');
   var defaultsAddressField = formAd.querySelector('input[name="address"]');
+  var priceElement = formAd.querySelector('#price');
+  var roomsSelect = formAd.querySelector('select[name="rooms"]');
+  var capacitySelect = formAd.querySelector('select[name="capacity"]');
+  var START_PRICE = {
+    PALACE: 'Дворец от 10 000₽/ночь',
+    FLAT: 'Квартиры от 1 000₽/ночь',
+    HOUSE: 'Дома от 5 000₽/ночь',
+  };
+  var checkinElement = formAd.querySelector('#timein');
+  var checkoutElement = formAd.querySelector('#timeout');
+  var houseTypeElement = formAd.querySelector('#type');
 
   var makeDisableElements = function (array) {
     array.forEach(function (item) {
@@ -39,33 +48,20 @@
   };
 
   var setDefaultAdress = function () {
-    var randomX = window.utilits.getRandom(window.data.COORDS_X_MIN, window.data.coordsXMax);
+    var randomX = window.utilits.getRandom(window.data.COORDS_X_MIN, window.card.coordsXMax);
     var randomY = window.utilits.getRandom(window.data.COORDS_Y_MIN, window.data.COORDS_Y_MAX);
     var coordinats = randomX + ', ' + randomY;
     defaultsAddressField.value = coordinats;
-  };
-
-  var startInterface = function () {
-    userDialog.classList.remove('map--faded');
-    formAd.classList.remove('ad-form--disabled');
-    makeFormsAvailable();
-    mainPin.removeEventListener('mousedown', majorPinClickHandler);
-    mainPin.removeEventListener('keydown', majorPinKeydownHandler);
-
-    checkinElement.addEventListener('change', checkinChangeHandler);
-    checkoutElement.addEventListener('change', checkoutChangeHandler);
-    houseTypeElement.addEventListener('change', housTypeChangeHandler);
   };
 
   setDefaultAdress();
   makeFormsDisable();
 
   window.form = {
-    makeFormsAvailable: makeFormsAvailable,
-    startInterface: startInterface
+    makeFormsAvailable: makeFormsAvailable
   };
 
-  var housTypeChangeHandler = function () {
+  var houseTypeChangeHandler = function () {
     switch (houseTypeElement.value) {
       case 'bungalo':
         priceElement.placeholder = 0;
@@ -126,6 +122,19 @@
     homeSelect();
   };
 
+  var checkinChangeHandler = function () {
+    checkoutElement.value = checkinElement.value;
+  };
+
+  var checkoutChangeHandler = function () {
+    checkinElement.value = checkoutElement.value;
+  };
+
   formAd.addEventListener('change', adFormChangeHandler);
 
+  window.form = {
+    formAd: formAd,
+    checkinChangeHandler: checkinChangeHandler,
+    checkoutChangeHandler: checkoutChangeHandler,
+  };
 })();
